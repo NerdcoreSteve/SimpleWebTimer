@@ -8,7 +8,12 @@ require('babel-polyfill');
 /*
 TODO
 make a single pause/unpause button
-make it say "start" or "resume" depending on context
+textbox for the number of minutes until the timer goes off
+timer textbox is only a textbox when timer is paused, otherwise paragraph element or similar
+alert when timer goes off
+notification when timer goes off
+Done? Put up on heroku
+blog about it
 */
 
 var R = require('ramda'),
