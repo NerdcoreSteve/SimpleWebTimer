@@ -5,6 +5,7 @@ TODO
 make a single pause/unpause button
 textbox for the number of minutes until the timer goes off
 timer textbox is only a textbox when timer is paused, otherwise paragraph element or similar
+format into minutes and seconds
 alert when timer goes off
 notification when timer goes off
 Done? Put up on heroku
