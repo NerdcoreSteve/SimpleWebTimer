@@ -2,10 +2,7 @@ require('whatwg-fetch')
 require('babel-polyfill')
 /*
 TODO
-format timer into minutes and seconds
-input now asks how many minutes, not seconds
 html notification when timer goes off
-Start using it if I can now blog as soon as useful, blog later for these later steps
 make stopped mode and stop button. Stop mode means button says "start".
     paused mode only says "pause"
 style it up simply so it looks fine desktop or mobile mode
@@ -28,11 +25,12 @@ const
     sagaMiddleware = createSagaMiddleware(),
     moment = require('moment'),
     formatSeconds = seconds => moment.utc(seconds * 1000).format('HH:mm:ss'),
+    initialInterval = 25,
     initialState = {
         time: 0,
         paused: true,
-        interval: 25,
-        text: '',
+        interval: initialInterval * 60,
+        text: `${initialInterval}`,
     },
     reducer = (state = initialState, action) => {
         switch(action.type) {
@@ -58,12 +56,12 @@ const
                 }
             case 'CHANGE_INTERVAL':
                 const
-                    parsedInterval = parseInt(state.text),
+                    parsedInterval = parseInt(state.text) * 60,
                     newInterval = !isNaN(parsedInterval) ? parsedInterval : state.interval
                 return {
                     ...state,
                     interval: newInterval,
-                    text: newInterval.toString(),
+                    text: newInterval.toString() / 60,
                 }
             default:
                 return state
@@ -126,7 +124,7 @@ const
                                 type="button">
                                     Pause
                             </button>
-                            <p>{formatSeconds(store.getState().text)}</p>
+                            <p>{formatSeconds(store.getState().interval)}</p>
                         </div>
                     }
                 }()}

@@ -7,10 +7,7 @@ require('whatwg-fetch');
 require('babel-polyfill');
 /*
 TODO
-format timer into minutes and seconds
-input now asks how many minutes, not seconds
 html notification when timer goes off
-Start using it if I can now blog as soon as useful, blog later for these later steps
 make stopped mode and stop button. Stop mode means button says "start".
     paused mode only says "pause"
 style it up simply so it looks fine desktop or mobile mode
@@ -43,11 +40,12 @@ var R = require('ramda'),
     formatSeconds = function formatSeconds(seconds) {
     return moment.utc(seconds * 1000).format('HH:mm:ss');
 },
+    initialInterval = 25,
     initialState = {
     time: 0,
     paused: true,
-    interval: 25,
-    text: ''
+    interval: initialInterval * 60,
+    text: '' + initialInterval
 },
     reducer = function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -71,11 +69,11 @@ var R = require('ramda'),
                 text: action.text
             });
         case 'CHANGE_INTERVAL':
-            var parsedInterval = parseInt(state.text),
+            var parsedInterval = parseInt(state.text) * 60,
                 newInterval = !isNaN(parsedInterval) ? parsedInterval : state.interval;
             return _extends({}, state, {
                 interval: newInterval,
-                text: newInterval.toString()
+                text: newInterval.toString() / 60
             });
         default:
             return state;
@@ -220,7 +218,7 @@ var R = require('ramda'),
                     React.createElement(
                         'p',
                         null,
-                        formatSeconds(store.getState().text)
+                        formatSeconds(store.getState().interval)
                     )
                 );
             }
