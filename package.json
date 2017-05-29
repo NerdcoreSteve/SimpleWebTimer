@@ -1,0 +1,29 @@
+{
+  "name": "SimpleWebTimer",
+  "version": "1.0.0",
+  "description": "A simple timer for using the pomodor technique and similar",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify front-end/js/main.js -o public/js/main.js -t [ babelify --presets [ latest react ] --plugins [ transform-object-rest-spread ] ]"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NerdcoreSteve/SimpleWebTimer"
+  },
+  "keywords": [
+    "rxjs"
+  ],
+  "author": "Steve Smith",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/NerdcoreSteve/SimpleWebTimer#readme",
+  "dependencies": {
+    "babelify": "^7.3.0",
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta6"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0"
+  }
+}
