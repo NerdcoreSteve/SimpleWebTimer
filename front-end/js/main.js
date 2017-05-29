@@ -2,14 +2,19 @@ require('whatwg-fetch')
 require('babel-polyfill')
 /*
 TODO
-make a single pause/unpause button
 textbox for the number of minutes until the timer goes off
 timer textbox is only a textbox when timer is paused, otherwise paragraph element or similar
 format into minutes and seconds
-alert when timer goes off
-notification when timer goes off
+html notification when timer goes off
+make stopped mode and stop button. Stop mode means button says "start".
+    paused mode only says "pause"
+style it up simply so it looks fine desktop or mobile mode
+Can I do html notifications on the phone?
 Done? Put up on heroku
-blog about it
+add login when you've learned it
+start adding recording
+make this a react native app?
+make this a desktop app?
 */
 
 const
@@ -65,20 +70,25 @@ const
         ReactDOM.render(
             <div>
                 <p>{store.getState().time}</p>
-                <button
-                    onClick={() => store.dispatch({
-                        type: 'START_RESUME'
-                    })}
-                    type="button">
-                        Start/Resume
-                </button>
-                <button
-                    onClick={() => store.dispatch({
-                        type: 'PAUSE'
-                    })}
-                    type="button">
-                        Pause
-                </button>
+                {function () {
+                    if(store.getState().paused) {
+                        return <button
+                            onClick={() => store.dispatch({
+                                type: 'START_RESUME'
+                            })}
+                            type="button">
+                                Start/Resume
+                        </button>
+                    } else {
+                        return <button
+                            onClick={() => store.dispatch({
+                                type: 'PAUSE'
+                            })}
+                            type="button">
+                                Pause
+                        </button>
+                    }
+                }()}
             </div>,
             document.getElementById('root'))
 

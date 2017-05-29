@@ -7,14 +7,19 @@ require('whatwg-fetch');
 require('babel-polyfill');
 /*
 TODO
-make a single pause/unpause button
 textbox for the number of minutes until the timer goes off
 timer textbox is only a textbox when timer is paused, otherwise paragraph element or similar
 format into minutes and seconds
-alert when timer goes off
-notification when timer goes off
+html notification when timer goes off
+make stopped mode and stop button. Stop mode means button says "start".
+    paused mode only says "pause"
+style it up simply so it looks fine desktop or mobile mode
+Can I do html notifications on the phone?
 Done? Put up on heroku
-blog about it
+add login when you've learned it
+start adding recording
+make this a react native app?
+make this a desktop app?
 */
 
 var R = require('ramda'),
@@ -140,28 +145,33 @@ var R = require('ramda'),
             null,
             store.getState().time
         ),
-        React.createElement(
-            'button',
-            {
-                onClick: function onClick() {
-                    return store.dispatch({
-                        type: 'START_RESUME'
-                    });
-                },
-                type: 'button' },
-            'Start/Resume'
-        ),
-        React.createElement(
-            'button',
-            {
-                onClick: function onClick() {
-                    return store.dispatch({
-                        type: 'PAUSE'
-                    });
-                },
-                type: 'button' },
-            'Pause'
-        )
+        function () {
+            if (store.getState().paused) {
+                return React.createElement(
+                    'button',
+                    {
+                        onClick: function onClick() {
+                            return store.dispatch({
+                                type: 'START_RESUME'
+                            });
+                        },
+                        type: 'button' },
+                    'Start/Resume'
+                );
+            } else {
+                return React.createElement(
+                    'button',
+                    {
+                        onClick: function onClick() {
+                            return store.dispatch({
+                                type: 'PAUSE'
+                            });
+                        },
+                        type: 'button' },
+                    'Pause'
+                );
+            }
+        }()
     ), document.getElementById('root'));
 };
 
