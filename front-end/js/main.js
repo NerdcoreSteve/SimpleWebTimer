@@ -67,14 +67,6 @@ const
                 <p>{store.getState().time}</p>
                 <button
                     onClick={() => store.dispatch({
-                        type: 'NOTIFICATION',
-                        notification: 'I\'ve put you on notice!'
-                    })}
-                    type="button">
-                        notify
-                </button>
-                <button
-                    onClick={() => store.dispatch({
                         type: 'START_RESUME'
                     })}
                     type="button">
@@ -90,7 +82,14 @@ const
             </div>,
             document.getElementById('root'))
 
+timer.subscribe(() => {
+    store.dispatch({type: 'INCREMENT'})
+    if(store.getState().time == 0) {
+        store.dispatch({type: 'PAUSE'})
+        store.dispatch({type: 'NOTIFICATION', notification: 'timer\'s done!'})
+    }
+})
+
 sagaMiddleware.run(rootSaga)
 store.subscribe(render)
-timer.subscribe(() => store.dispatch({type: 'INCREMENT'}))
 render()

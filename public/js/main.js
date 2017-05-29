@@ -10,6 +10,7 @@ TODO
 make a single pause/unpause button
 textbox for the number of minutes until the timer goes off
 timer textbox is only a textbox when timer is paused, otherwise paragraph element or similar
+format into minutes and seconds
 alert when timer goes off
 notification when timer goes off
 Done? Put up on heroku
@@ -144,18 +145,6 @@ var R = require('ramda'),
             {
                 onClick: function onClick() {
                     return store.dispatch({
-                        type: 'NOTIFICATION',
-                        notification: 'I\'ve put you on notice!'
-                    });
-                },
-                type: 'button' },
-            'notify'
-        ),
-        React.createElement(
-            'button',
-            {
-                onClick: function onClick() {
-                    return store.dispatch({
                         type: 'START_RESUME'
                     });
                 },
@@ -177,11 +166,16 @@ var R = require('ramda'),
 };
 
 
+timer.subscribe(function () {
+    store.dispatch({ type: 'INCREMENT' });
+    if (store.getState().time == 0) {
+        store.dispatch({ type: 'PAUSE' });
+        store.dispatch({ type: 'NOTIFICATION', notification: 'timer\'s done!' });
+    }
+});
+
 sagaMiddleware.run(rootSaga);
 store.subscribe(render);
-timer.subscribe(function () {
-    return store.dispatch({ type: 'INCREMENT' });
-});
 render();
 
 },{"babel-polyfill":2,"ramda":335,"react":487,"react-dom":336,"redux":505,"redux-saga":489,"rx":508,"whatwg-fetch":512}],2:[function(require,module,exports){
