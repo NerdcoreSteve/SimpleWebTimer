@@ -26,11 +26,17 @@ const
     {createStore, applyMiddleware} = require('redux'),
     {default: createSagaMiddleware, takeEvery, effects: {put, call}} = require('redux-saga'),
     sagaMiddleware = createSagaMiddleware(),
-    reducer = (state = {time: 0, paused: true}, action) => {
+    initialState = {
+        time: 0,
+        paused: true,
+        interval: 25
+    },
+    reducer = (state = initialState, action) => {
         switch(action.type) {
             case 'INCREMENT':
                 return {
-                    time: (state.time + 1) % 26
+                    ...state,
+                    time: (state.time + 1) % (state.interval + 1)
                 }
             case 'STARTED_RESUMED':
                 return {

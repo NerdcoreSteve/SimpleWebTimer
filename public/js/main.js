@@ -39,15 +39,20 @@ var R = require('ramda'),
     put = _require2$effects.put,
     call = _require2$effects.call,
     sagaMiddleware = createSagaMiddleware(),
+    initialState = {
+    time: 0,
+    paused: true,
+    interval: 25
+},
     reducer = function reducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { time: 0, paused: true };
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
 
     switch (action.type) {
         case 'INCREMENT':
-            return {
-                time: (state.time + 1) % 26
-            };
+            return _extends({}, state, {
+                time: (state.time + 1) % (state.interval + 1)
+            });
         case 'STARTED_RESUMED':
             return _extends({}, state, {
                 paused: false
