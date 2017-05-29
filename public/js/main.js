@@ -7,10 +7,10 @@ require('whatwg-fetch');
 require('babel-polyfill');
 /*
 TODO
-textbox for the number of minutes until the timer goes off
-timer textbox is only a textbox when timer is paused, otherwise paragraph element or similar
-format into minutes and seconds
+format timer into minutes and seconds
+input now asks how many minutes, not seconds
 html notification when timer goes off
+Start using it if I can now blog as soon as useful, blog later for these later steps
 make stopped mode and stop button. Stop mode means button says "start".
     paused mode only says "pause"
 style it up simply so it looks fine desktop or mobile mode
@@ -42,7 +42,8 @@ var R = require('ramda'),
     initialState = {
     time: 0,
     paused: true,
-    interval: 25
+    interval: 25,
+    text: ''
 },
     reducer = function reducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -60,6 +61,17 @@ var R = require('ramda'),
         case 'PAUSED':
             return _extends({}, state, {
                 paused: true
+            });
+        case 'CHANGE_TEXT':
+            return _extends({}, state, {
+                text: action.text
+            });
+        case 'CHANGE_INTERVAL':
+            var parsedInterval = parseInt(state.text),
+                newInterval = !isNaN(parsedInterval) ? parsedInterval : state.interval;
+            return _extends({}, state, {
+                interval: newInterval,
+                text: newInterval.toString()
             });
         default:
             return state;
@@ -153,27 +165,59 @@ var R = require('ramda'),
         function () {
             if (store.getState().paused) {
                 return React.createElement(
-                    'button',
-                    {
-                        onClick: function onClick() {
-                            return store.dispatch({
-                                type: 'START_RESUME'
-                            });
+                    'div',
+                    null,
+                    React.createElement(
+                        'button',
+                        {
+                            onClick: function onClick() {
+                                return store.dispatch({
+                                    type: 'START_RESUME'
+                                });
+                            },
+                            type: 'button' },
+                        'Start/Resume'
+                    ),
+                    React.createElement('br', null),
+                    React.createElement('input', {
+                        type: 'text',
+                        value: store.getState().text,
+                        onChange: function onChange(_ref) {
+                            var text = _ref.target.value;
+
+                            store.dispatch({ type: 'CHANGE_TEXT', text: text });
                         },
-                        type: 'button' },
-                    'Start/Resume'
+                        onKeyPress: function onKeyPress(_ref2) {
+                            var key = _ref2.key;
+
+                            if (key === 'Enter') {
+                                store.dispatch({ type: 'CHANGE_INTERVAL' });
+                            }
+                        },
+                        onBlur: function onBlur() {
+                            return store.dispatch({ type: 'CHANGE_INTERVAL' });
+                        } })
                 );
             } else {
                 return React.createElement(
-                    'button',
-                    {
-                        onClick: function onClick() {
-                            return store.dispatch({
-                                type: 'PAUSE'
-                            });
-                        },
-                        type: 'button' },
-                    'Pause'
+                    'div',
+                    null,
+                    React.createElement(
+                        'button',
+                        {
+                            onClick: function onClick() {
+                                return store.dispatch({
+                                    type: 'PAUSE'
+                                });
+                            },
+                            type: 'button' },
+                        'Pause'
+                    ),
+                    React.createElement(
+                        'p',
+                        null,
+                        store.getState().interval
+                    )
                 );
             }
         }()
