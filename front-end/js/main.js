@@ -26,6 +26,8 @@ const
     {createStore, applyMiddleware} = require('redux'),
     {default: createSagaMiddleware, takeEvery, effects: {put, call}} = require('redux-saga'),
     sagaMiddleware = createSagaMiddleware(),
+    moment = require('moment'),
+    formatSeconds = seconds => moment.utc(seconds * 1000).format('HH:mm:ss'),
     initialState = {
         time: 0,
         paused: true,
@@ -90,7 +92,7 @@ const
     render = () =>
         ReactDOM.render(
             <div>
-                <p>{store.getState().time}</p>
+                <p>{formatSeconds(store.getState().time)}</p>
                 {function () {
                     if(store.getState().paused) {
                         return <div>
@@ -124,7 +126,7 @@ const
                                 type="button">
                                     Pause
                             </button>
-                            <p>{store.getState().interval}</p>
+                            <p>{formatSeconds(store.getState().text)}</p>
                         </div>
                     }
                 }()}
