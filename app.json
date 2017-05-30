@@ -1,0 +1,8 @@
+{
+  "name": "SimpleWebTimer",
+  "description": "A simple timer for using the pomodor technique and similar",
+  "repository": "https://github.com/NerdcoreSteve/SimpleWebTimer",
+  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/master/public/node.svg",
+  "keywords": ["timer", "express", "heroku"],
+  "image": "heroku/nodejs"
+}

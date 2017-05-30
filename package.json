@@ -4,7 +4,8 @@
   "description": "A simple timer for using the pomodor technique and similar",
   "main": "index.js",
   "scripts": {
-    "build": "browserify front-end/js/main.js -o public/js/main.js -t [ babelify --presets [ latest react ] --plugins [ transform-object-rest-spread ] ]"
+    "build": "browserify front-end/js/main.js -o public/js/main.js -t [ babelify --presets [ latest react ] --plugins [ transform-object-rest-spread ] ]",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
