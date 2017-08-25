@@ -24,14 +24,16 @@ const
     {default: createSagaMiddleware, takeEvery, effects: {put, call}} = require('redux-saga'),
     sagaMiddleware = createSagaMiddleware(),
     moment = require('moment'),
+    {Left, Right} = require('data.either'),
     formatSeconds = seconds => moment.utc(seconds * 1000).format('HH:mm:ss'),
-    initialInterval = 25,
-    initialState = {
+    initialInterval = 25 * 60,
+    reset = interval => ({
         time: 0,
         paused: true,
-        interval: initialInterval * 60,
-        text: `${initialInterval}`,
-    },
+        interval: interval,
+        text: `${interval / 60}`,
+    }),
+    initialState = reset(initialInterval),
     reducer = (state = initialState, action) => {
         switch(action.type) {
             case 'INCREMENT':
@@ -55,14 +57,17 @@ const
                     text: action.text
                 }
             case 'CHANGE_INTERVAL':
-                const
-                    parsedInterval = parseInt(state.text) * 60,
-                    newInterval = !isNaN(parsedInterval) ? parsedInterval : state.interval
-                return {
-                    ...state,
-                    interval: newInterval,
-                    text: newInterval.toString() / 60,
-                }
+                return Right(state)
+                    .map(R.prop('text'))
+                    .map(parseInt)
+                    .chain(interval =>
+                        isNaN(interval)
+                            ? Left(state.interval)
+                            : Right(interval))
+                    .map(R.multiply(60))
+                    .fold(reset, reset)
+            case 'RESET_STATE':
+                return reset(state.interval)
             default:
                 return state
         }
@@ -80,12 +85,19 @@ const
         } else if(action.type === 'PAUSE' && !store.getState().paused) {
             timer.pause()
             yield put({type: 'PAUSED'})
+        } else if(action.type === 'RESET') {
+            if(!store.getState().paused) {
+                timer.pause()
+            }
+            yield put({type: 'PAUSED'})
+            yield put({type: 'RESET_STATE'})
         }
     },
     rootSaga = function* () {
         yield takeEvery('NOTIFICATION', notificationSaga)
         yield takeEvery('START_RESUME', timerSaga)
         yield takeEvery('PAUSE', timerSaga)
+        yield takeEvery('RESET', timerSaga)
     },
     render = () =>
         ReactDOM.render(
@@ -128,6 +140,13 @@ const
                         </div>
                     }
                 }()}
+                <button
+                    onClick={() => store.dispatch({
+                        type: 'RESET'
+                    })}
+                    type="button">
+                        Reset
+                </button>
             </div>,
             document.getElementById('root'))
 
