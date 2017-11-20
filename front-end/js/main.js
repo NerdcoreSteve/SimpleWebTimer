@@ -1,30 +1,19 @@
 require('whatwg-fetch')
 require('babel-polyfill')
-/*
-TODO
-html notification when timer goes off
-make stopped mode and stop button. Stop mode means button says "start".
-    paused mode only says "pause"
-style it up simply so it looks fine desktop or mobile mode
-Can I do html notifications on the phone?
-Done? Put up on heroku
-add login when you've learned it
-start adding recording
-make this a react native app?
-make this a desktop app?
-*/
 
 const
     R = require('ramda'),
-    Rx = require('rx'),
-    tap = x => { console.log(x); return x },
     React = require('react'),
     ReactDOM = require('react-dom'),
     {createStore, applyMiddleware} = require('redux'),
     {default: createSagaMiddleware, takeEvery, effects: {put, call}} = require('redux-saga'),
     sagaMiddleware = createSagaMiddleware(),
     moment = require('moment'),
-    {Left, Right} = require('data.either'),
+    {Left, Right} = require('data.either')
+
+const
+    createTimerAndHookUpToStore = require('./createTimerAndHookUpToStore')
+const
     formatSeconds = seconds => moment.utc(seconds * 1000).format('HH:mm:ss'),
     initialInterval = 25 * 60,
     reset = interval => ({
@@ -73,7 +62,7 @@ const
         }
     },
     store = createStore(reducer, applyMiddleware(sagaMiddleware)),
-    timer = Rx.Observable.interval(1000).pausable(new Rx.Subject()),
+    timer = createTimerAndHookUpToStore(store),
     notificationSaga = function* (action) {
         alert(action.notification)
         yield put({type: 'NOTIFIED'})
@@ -149,14 +138,6 @@ const
                 </button>
             </div>,
             document.getElementById('root'))
-
-timer.subscribe(() => {
-    store.dispatch({type: 'INCREMENT'})
-    if(store.getState().time == 0) {
-        store.dispatch({type: 'PAUSE'})
-        store.dispatch({type: 'NOTIFICATION', notification: 'timer\'s done!'})
-    }
-})
 
 sagaMiddleware.run(rootSaga)
 store.subscribe(render)
