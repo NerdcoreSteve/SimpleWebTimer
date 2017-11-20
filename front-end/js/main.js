@@ -6,13 +6,14 @@ const
     React = require('react'),
     ReactDOM = require('react-dom'),
     {createStore, applyMiddleware} = require('redux'),
-    {default: createSagaMiddleware, takeEvery, effects: {put, call}} = require('redux-saga'),
-    sagaMiddleware = createSagaMiddleware(),
+    {default: createSagaMiddleware} = require('redux-saga'),
     moment = require('moment'),
     {Left, Right} = require('data.either')
 
 const
-    createTimerAndHookUpToStore = require('./createTimerAndHookUpToStore')
+    createTimerAndHookUpToStore = require('./createTimerAndHookUpToStore'),
+    createRootSaga = require('./createRootSaga')
+
 const
     formatSeconds = seconds => moment.utc(seconds * 1000).format('HH:mm:ss'),
     initialInterval = 25 * 60,
@@ -61,33 +62,10 @@ const
                 return state
         }
     },
+    sagaMiddleware = createSagaMiddleware(),
     store = createStore(reducer, applyMiddleware(sagaMiddleware)),
     timer = createTimerAndHookUpToStore(store),
-    notificationSaga = function* (action) {
-        alert(action.notification)
-        yield put({type: 'NOTIFIED'})
-    },
-    timerSaga = function* (action) {
-        if(action.type === 'START_RESUME' && store.getState().paused) {
-            timer.resume()
-            yield put({type: 'STARTED_RESUMED'})
-        } else if(action.type === 'PAUSE' && !store.getState().paused) {
-            timer.pause()
-            yield put({type: 'PAUSED'})
-        } else if(action.type === 'RESET') {
-            if(!store.getState().paused) {
-                timer.pause()
-            }
-            yield put({type: 'PAUSED'})
-            yield put({type: 'RESET_STATE'})
-        }
-    },
-    rootSaga = function* () {
-        yield takeEvery('NOTIFICATION', notificationSaga)
-        yield takeEvery('START_RESUME', timerSaga)
-        yield takeEvery('PAUSE', timerSaga)
-        yield takeEvery('RESET', timerSaga)
-    },
+    rootSaga = createRootSaga(timer),
     render = () =>
         ReactDOM.render(
             <div>
