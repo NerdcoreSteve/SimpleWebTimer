@@ -1,2 +1,2 @@
 # SimpleWebTimer
-A simple timer for using the pomodor technique and similar
+A simple timer for using the pomodoro technique and similar
