@@ -6,16 +6,15 @@ const
     React = require('react'),
     ReactDOM = require('react-dom'),
     {createStore, applyMiddleware} = require('redux'),
-    {default: createSagaMiddleware} = require('redux-saga'),
-    moment = require('moment')
+    {default: createSagaMiddleware} = require('redux-saga')
 
 const
     createTimerAndHookUpToStore = require('./createTimerAndHookUpToStore'),
     createRootSaga = require('./createRootSaga'),
-    reducer = require('./reducer')
+    reducer = require('./reducer'),
+    TimeDisplay = require('./TimeDisplay')
 
 const
-    formatSeconds = seconds => moment.utc(seconds * 1000).format('HH:mm:ss'),
     sagaMiddleware = createSagaMiddleware(),
     store = createStore(reducer, applyMiddleware(sagaMiddleware)),
     timer = createTimerAndHookUpToStore(store),
@@ -23,7 +22,7 @@ const
     render = () =>
         ReactDOM.render(
             <div>
-                <p>{formatSeconds(store.getState().time)}</p>
+                <TimeDisplay timeInSeconds={store.getState().time}/>
                 {function () {
                     if(store.getState().paused) {
                         return <div>
@@ -57,7 +56,7 @@ const
                                 type="button">
                                     Pause
                             </button>
-                            <p>{formatSeconds(store.getState().interval)}</p>
+                            <TimeDisplay timeInSeconds={store.getState().interval}/>
                         </div>
                     }
                 }()}
