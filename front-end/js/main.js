@@ -14,7 +14,8 @@ const
     reducer = require('./reducer'),
     TimeDisplay = require('./TimeDisplay'),
     Button = require('./Button'),
-    RunningOrPaused = require('./RunningOrPaused')
+    RunningOrPaused = require('./RunningOrPaused'),
+    StartResumePauseButtons = require('./StartResumePauseButtons')
 
 const
     App = ({store}) => 
@@ -22,14 +23,7 @@ const
             <div>
                 <TimeDisplay timeInSeconds={store.getState().time}/>
                 <RunningOrPaused/>
-                <Button
-                    onClick={store.getState().paused
-                        ? () => store.dispatch({type: 'START_RESUME'})
-                        : () => store.dispatch({type: 'PAUSE'})}
-                    text={store.getState().paused ? 'Start/Resume' : 'Pause'}/>
-                <Button
-                    onClick={() => store.dispatch({type: 'RESET'})}
-                    text={'Reset'}/>
+                <StartResumePauseButtons/>
             </div>
         </Provider>
 

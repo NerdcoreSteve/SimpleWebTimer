@@ -11,7 +11,9 @@ const
     mapDispatchToProps = dispatch => ({
         changeText: text => dispatch({type: 'CHANGE_TEXT', text}),
         changeInterval: () => dispatch({type: 'CHANGE_INTERVAL'}),
-    }),
+    })
+
+const
     RunningOrPaused = ({paused, text, interval, changeText, changeInterval}) =>
         paused
             ? <TextInput text={text} onBlurOrEnter={changeInterval} onChange={changeText}/>
