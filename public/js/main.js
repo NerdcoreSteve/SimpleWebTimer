@@ -25,10 +25,38 @@ var TimeDisplay = require('./TimeDisplay'),
     StartResume = require('./StartResume'),
     TextInput = require('./TextInput');
 
-var mapStateToProps = function mapStateToProps(_ref) {
-    var paused = _ref.paused,
+var StartResumeAndTextInput = function StartResumeAndTextInput(_ref) {
+    var startResume = _ref.startResume,
         text = _ref.text,
-        interval = _ref.interval;
+        changeInterval = _ref.changeInterval,
+        changeText = _ref.changeText;
+    return React.createElement(
+        'div',
+        null,
+        React.createElement(StartResume, { startResume: startResume }),
+        React.createElement('br', null),
+        React.createElement(TextInput, { text: text, onBlurOrEnter: changeInterval, onChange: changeText })
+    );
+},
+    PauseAndTimeDisplay = function PauseAndTimeDisplay(_ref2) {
+    var pause = _ref2.pause,
+        interval = _ref2.interval;
+    return React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'button',
+            { onClick: pause, type: 'button' },
+            ' Pause '
+        ),
+        React.createElement(TimeDisplay, { timeInSeconds: interval })
+    );
+};
+
+var mapStateToProps = function mapStateToProps(_ref3) {
+    var paused = _ref3.paused,
+        text = _ref3.text,
+        interval = _ref3.interval;
     return { paused: paused, text: text, interval: interval };
 },
     mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -47,30 +75,19 @@ var mapStateToProps = function mapStateToProps(_ref) {
         }
     };
 },
-    RunningOrPaused = function RunningOrPaused(_ref2) {
-    var paused = _ref2.paused,
-        text = _ref2.text,
-        interval = _ref2.interval,
-        startResume = _ref2.startResume,
-        changeText = _ref2.changeText,
-        changeInterval = _ref2.changeInterval,
-        pause = _ref2.pause;
-    return paused ? React.createElement(
-        'div',
-        null,
-        React.createElement(StartResume, { startResume: startResume }),
-        React.createElement('br', null),
-        React.createElement(TextInput, { text: text, onBlurOrEnter: changeInterval, onChange: changeText })
-    ) : React.createElement(
-        'div',
-        null,
-        React.createElement(
-            'button',
-            { onClick: pause, type: 'button' },
-            ' Pause '
-        ),
-        React.createElement(TimeDisplay, { timeInSeconds: interval })
-    );
+    RunningOrPaused = function RunningOrPaused(_ref4) {
+    var paused = _ref4.paused,
+        text = _ref4.text,
+        interval = _ref4.interval,
+        startResume = _ref4.startResume,
+        changeText = _ref4.changeText,
+        changeInterval = _ref4.changeInterval,
+        pause = _ref4.pause;
+    return paused ? React.createElement(StartResumeAndTextInput, {
+        startResume: startResume,
+        text: text,
+        changeInterval: changeInterval,
+        changeText: changeText }) : React.createElement(PauseAndTimeDisplay, { pause: pause, interval: interval });
 };
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused);

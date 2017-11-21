@@ -8,6 +8,19 @@ const
     TextInput = require('./TextInput')
 
 const
+    StartResumeAndTextInput = ({startResume, text, changeInterval, changeText}) =>
+        <div>
+            <StartResume startResume={startResume}/>
+            <br/>
+            <TextInput text={text} onBlurOrEnter={changeInterval} onChange={changeText}/>
+        </div>,
+    PauseAndTimeDisplay = ({pause, interval}) =>
+        <div>
+            <button onClick={pause} type="button"> Pause </button>
+            <TimeDisplay timeInSeconds={interval}/>
+        </div>
+
+const
     mapStateToProps = ({paused, text, interval}) => ({paused, text, interval}),
     mapDispatchToProps = dispatch => ({
         startResume: () => dispatch({type: 'START_RESUME'}),
@@ -17,14 +30,11 @@ const
     }),
     RunningOrPaused = ({paused, text, interval, startResume, changeText, changeInterval, pause}) =>
         paused
-            ? <div>
-                <StartResume startResume={startResume}/>
-                <br/>
-                <TextInput text={text} onBlurOrEnter={changeInterval} onChange={changeText}/>
-            </div>
-            : <div>
-                <button onClick={pause} type="button"> Pause </button>
-                <TimeDisplay timeInSeconds={interval}/>
-            </div>
+            ? <StartResumeAndTextInput
+                startResume={startResume}
+                text={text}
+                changeInterval={changeInterval}
+                changeText={changeText}/>
+            : <PauseAndTimeDisplay pause={pause} interval={interval}/>
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused)
