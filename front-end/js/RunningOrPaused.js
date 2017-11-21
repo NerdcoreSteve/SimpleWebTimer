@@ -17,6 +17,6 @@ const
     RunningOrPaused = ({paused, text, interval, changeText, changeInterval}) =>
         paused
             ? <TextInput text={text} onBlurOrEnter={changeInterval} onChange={changeText}/>
-            : <TimeDisplay timeInSeconds={interval}/>
+            : <TimeDisplay style={{marginBottom: '4.1rem'}} timeInSeconds={interval}/>
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused)

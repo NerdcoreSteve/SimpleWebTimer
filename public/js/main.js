@@ -1,13 +1,26 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var React = require('react'),
+    style = {
+    fontSize: '5rem',
+    fontFamily: 'VT323, serif',
+    backgroundColor: '#343D35',
+    color: '#27E52A',
+    borderColor: '#27E52A',
+    borderWidth: '0.5rem',
+    margin: '1rem',
+    marginLeft: '0'
+},
     Button = function Button(_ref) {
     var onClick = _ref.onClick,
         text = _ref.text;
     return React.createElement(
-        "button",
-        { onClick: onClick, type: "button" },
+        'button',
+        {
+            style: style,
+            onClick: onClick,
+            type: 'button' },
         text
     );
 };
@@ -48,7 +61,7 @@ var RunningOrPaused = function RunningOrPaused(_ref2) {
         interval = _ref2.interval,
         changeText = _ref2.changeText,
         changeInterval = _ref2.changeInterval;
-    return paused ? React.createElement(TextInput, { text: text, onBlurOrEnter: changeInterval, onChange: changeText }) : React.createElement(TimeDisplay, { timeInSeconds: interval });
+    return paused ? React.createElement(TextInput, { text: text, onBlurOrEnter: changeInterval, onChange: changeText }) : React.createElement(TimeDisplay, { style: { marginBottom: '4.1rem' }, timeInSeconds: interval });
 };
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused);
@@ -101,11 +114,21 @@ module.exports = connect(mapStateToProps, mapDispatchToProps)(StartResumePauseBu
 'use strict';
 
 var React = require('react'),
+    style = {
+    fontSize: '15rem',
+    fontFamily: 'VT323, serif',
+    width: '47rem',
+    backgroundColor: '#343D35',
+    color: '#27E52A',
+    borderColor: '#27E52A',
+    borderWidth: '2rem'
+},
     TextInput = function TextInput(_ref) {
     var text = _ref.text,
         onBlurOrEnter = _ref.onBlurOrEnter,
         _onChange = _ref.onChange;
     return React.createElement('input', {
+        style: style,
         type: 'text',
         value: text,
         onChange: function onChange(_ref2) {
@@ -127,16 +150,25 @@ module.exports = TextInput;
 },{"react":495}],5:[function(require,module,exports){
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var React = require('react'),
     moment = require('moment'),
+    originalStyle = {
+    fontSize: '15rem',
+    marginBottom: '0rem',
+    marginTop: '0rem'
+},
     formatSeconds = function formatSeconds(seconds) {
     return moment.utc(seconds * 1000).format('HH:mm:ss');
 },
     TimeDisplay = function TimeDisplay(_ref) {
-    var timeInSeconds = _ref.timeInSeconds;
+    var _ref$style = _ref.style,
+        style = _ref$style === undefined ? {} : _ref$style,
+        timeInSeconds = _ref.timeInSeconds;
     return React.createElement(
         'p',
-        null,
+        { style: _extends({}, originalStyle, style) },
         formatSeconds(timeInSeconds)
     );
 };
