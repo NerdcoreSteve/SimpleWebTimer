@@ -23,6 +23,11 @@ const
                 <TimeDisplay timeInSeconds={store.getState().time}/>
                 <RunningOrPaused/>
                 <Button
+                    onClick={store.getState().paused
+                        ? () => store.dispatch({type: 'START_RESUME'})
+                        : () => store.dispatch({type: 'PAUSE'})}
+                    text={store.getState().paused ? 'Start/Resume' : 'Pause'}/>
+                <Button
                     onClick={() => store.dispatch({type: 'RESET'})}
                     text={'Reset'}/>
             </div>

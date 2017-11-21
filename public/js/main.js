@@ -23,73 +23,36 @@ var React = require('react'),
 
 
 var TimeDisplay = require('./TimeDisplay'),
-    Button = require('./Button'),
     TextInput = require('./TextInput');
 
-var StartResumeAndTextInput = function StartResumeAndTextInput(_ref) {
-    var startResume = _ref.startResume,
+var mapStateToProps = function mapStateToProps(_ref) {
+    var paused = _ref.paused,
         text = _ref.text,
-        changeInterval = _ref.changeInterval,
-        changeText = _ref.changeText;
-    return React.createElement(
-        'div',
-        null,
-        React.createElement(Button, { onClick: startResume, text: 'Start/Resume' }),
-        React.createElement('br', null),
-        React.createElement(TextInput, { text: text, onBlurOrEnter: changeInterval, onChange: changeText })
-    );
-},
-    PauseAndTimeDisplay = function PauseAndTimeDisplay(_ref2) {
-    var pause = _ref2.pause,
-        interval = _ref2.interval;
-    return React.createElement(
-        'div',
-        null,
-        React.createElement(Button, { onClick: pause, text: 'Pause' }),
-        React.createElement(TimeDisplay, { timeInSeconds: interval })
-    );
-};
-
-var mapStateToProps = function mapStateToProps(_ref3) {
-    var paused = _ref3.paused,
-        text = _ref3.text,
-        interval = _ref3.interval;
+        interval = _ref.interval;
     return { paused: paused, text: text, interval: interval };
 },
     mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        startResume: function startResume() {
-            return dispatch({ type: 'START_RESUME' });
-        },
         changeText: function changeText(text) {
             return dispatch({ type: 'CHANGE_TEXT', text: text });
         },
         changeInterval: function changeInterval() {
             return dispatch({ type: 'CHANGE_INTERVAL' });
-        },
-        pause: function pause() {
-            return dispatch({ type: 'PAUSE' });
         }
     };
 },
-    RunningOrPaused = function RunningOrPaused(_ref4) {
-    var paused = _ref4.paused,
-        text = _ref4.text,
-        interval = _ref4.interval,
-        startResume = _ref4.startResume,
-        changeText = _ref4.changeText,
-        changeInterval = _ref4.changeInterval,
-        pause = _ref4.pause;
-    return paused ? React.createElement(StartResumeAndTextInput, {
-        startResume: startResume,
-        text: text,
-        changeInterval: changeInterval,
-        changeText: changeText }) : React.createElement(PauseAndTimeDisplay, { pause: pause, interval: interval });
+    RunningOrPaused = function RunningOrPaused(_ref2) {
+    var paused = _ref2.paused,
+        text = _ref2.text,
+        interval = _ref2.interval,
+        changeText = _ref2.changeText,
+        changeInterval = _ref2.changeInterval;
+    return paused ? React.createElement(TextInput, { text: text, onBlurOrEnter: changeInterval, onChange: changeText }) : React.createElement(TimeDisplay, { timeInSeconds: interval });
 };
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused);
 
-},{"./Button":1,"./TextInput":3,"./TimeDisplay":4,"react":494,"react-redux":554}],3:[function(require,module,exports){
+},{"./TextInput":3,"./TimeDisplay":4,"react":494,"react-redux":554}],3:[function(require,module,exports){
 'use strict';
 
 var React = require('react'),
@@ -308,6 +271,13 @@ var App = function App(_ref) {
             null,
             React.createElement(TimeDisplay, { timeInSeconds: store.getState().time }),
             React.createElement(RunningOrPaused, null),
+            React.createElement(Button, {
+                onClick: store.getState().paused ? function () {
+                    return store.dispatch({ type: 'START_RESUME' });
+                } : function () {
+                    return store.dispatch({ type: 'PAUSE' });
+                },
+                text: store.getState().paused ? 'Start/Resume' : 'Pause' }),
             React.createElement(Button, {
                 onClick: function onClick() {
                     return store.dispatch({ type: 'RESET' });
