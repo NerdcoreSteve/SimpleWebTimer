@@ -1,16 +1,23 @@
 const
     React = require('react'),
-    {connect} = require('react-redux'),
-    TimeDisplay = require('./TimeDisplay'),
-    mapStateToProps = 
-        ({paused, text, interval, dispatch}) => ({paused, text, interval, dispatch}),
-    RunningOrPaused = connect(mapStateToProps)(({paused, text, interval, dispatch}) =>
+    {connect} = require('react-redux')
+
+const
+    TimeDisplay = require('./TimeDisplay')
+
+const
+    mapStateToProps = ({paused, text, interval}) => ({paused, text, interval}),
+    mapDispatchToProps = dispatch => ({
+        startResume: () => dispatch({type: 'START_RESUME'}),
+        changeText: text => dispatch({type: 'CHANGE_TEXT', text}),
+        changeInterval: () => dispatch({type: 'CHANGE_INTERVAL'}),
+        pause: () => dispatch({type: 'PAUSE'})
+    }),
+    RunningOrPaused = ({paused, text, interval, startResume, changeText, changeInterval, pause}) =>
         paused
             ? <div>
                 <button
-                    onClick={() => dispatch({
-                        type: 'START_RESUME'
-                    })}
+                    onClick={startResume}
                     type="button">
                         Start/Resume
                 </button>
@@ -18,25 +25,21 @@ const
                 <input
                     type="text"
                     value={text}
-                    onChange={({target:{value: text}}) => {
-                        dispatch({type: 'CHANGE_TEXT', text})
-                    }}
+                    onChange={({target:{value: text}}) => changeText(text)}
                     onKeyPress={({key}) => {
                         if(key === 'Enter') {
-                            dispatch({type: 'CHANGE_INTERVAL'})
+                            changeInterval()
                         }
                     }}
-                    onBlur ={() => dispatch({type: 'CHANGE_INTERVAL'})}/>
+                    onBlur ={changeInterval}/>
             </div>
             : <div>
                 <button
-                    onClick={() => dispatch({
-                        type: 'PAUSE'
-                    })}
+                    onClick={pause}
                     type="button">
                         Pause
                 </button>
                 <TimeDisplay timeInSeconds={interval}/>
-            </div>)
+            </div>
 
-module.exports = RunningOrPaused
+module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused)

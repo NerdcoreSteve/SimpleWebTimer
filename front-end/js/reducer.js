@@ -1,5 +1,8 @@
 const
-    {Left, Right} = require('data.either'),
+    R = require('ramda'),
+    {Left, Right} = require('data.either')
+
+const
     initialInterval = 25 * 60,
     reset = interval => ({
         time: 0,

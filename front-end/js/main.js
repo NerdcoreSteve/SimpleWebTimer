@@ -2,7 +2,6 @@ require('whatwg-fetch')
 require('babel-polyfill')
 
 const
-    R = require('ramda'),
     React = require('react'),
     ReactDOM = require('react-dom'),
     {createStore, applyMiddleware} = require('redux'),

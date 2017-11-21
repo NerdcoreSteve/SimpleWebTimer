@@ -18,31 +18,48 @@ module.exports = ResetButton;
 
 var React = require('react'),
     _require = require('react-redux'),
-    connect = _require.connect,
-    TimeDisplay = require('./TimeDisplay'),
-    mapStateToProps = function mapStateToProps(_ref) {
+    connect = _require.connect;
+
+
+var TimeDisplay = require('./TimeDisplay');
+
+var mapStateToProps = function mapStateToProps(_ref) {
     var paused = _ref.paused,
         text = _ref.text,
-        interval = _ref.interval,
-        dispatch = _ref.dispatch;
-    return { paused: paused, text: text, interval: interval, dispatch: dispatch };
+        interval = _ref.interval;
+    return { paused: paused, text: text, interval: interval };
 },
-    RunningOrPaused = connect(mapStateToProps)(function (_ref2) {
+    mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        startResume: function startResume() {
+            return dispatch({ type: 'START_RESUME' });
+        },
+        changeText: function changeText(text) {
+            return dispatch({ type: 'CHANGE_TEXT', text: text });
+        },
+        changeInterval: function changeInterval() {
+            return dispatch({ type: 'CHANGE_INTERVAL' });
+        },
+        pause: function pause() {
+            return dispatch({ type: 'PAUSE' });
+        }
+    };
+},
+    RunningOrPaused = function RunningOrPaused(_ref2) {
     var paused = _ref2.paused,
         text = _ref2.text,
         interval = _ref2.interval,
-        dispatch = _ref2.dispatch;
+        startResume = _ref2.startResume,
+        changeText = _ref2.changeText,
+        changeInterval = _ref2.changeInterval,
+        pause = _ref2.pause;
     return paused ? React.createElement(
         'div',
         null,
         React.createElement(
             'button',
             {
-                onClick: function onClick() {
-                    return dispatch({
-                        type: 'START_RESUME'
-                    });
-                },
+                onClick: startResume,
                 type: 'button' },
             'Start/Resume'
         ),
@@ -52,39 +69,31 @@ var React = require('react'),
             value: text,
             onChange: function onChange(_ref3) {
                 var text = _ref3.target.value;
-
-                dispatch({ type: 'CHANGE_TEXT', text: text });
+                return changeText(text);
             },
             onKeyPress: function onKeyPress(_ref4) {
                 var key = _ref4.key;
 
                 if (key === 'Enter') {
-                    dispatch({ type: 'CHANGE_INTERVAL' });
+                    changeInterval();
                 }
             },
-            onBlur: function onBlur() {
-                return dispatch({ type: 'CHANGE_INTERVAL' });
-            } })
+            onBlur: changeInterval })
     ) : React.createElement(
         'div',
         null,
         React.createElement(
             'button',
             {
-                onClick: function onClick() {
-                    return dispatch({
-                        type: 'PAUSE'
-                    });
-                },
+                onClick: pause,
                 type: 'button' },
             'Pause'
         ),
         React.createElement(TimeDisplay, { timeInSeconds: interval })
     );
-});
+};
 
-
-module.exports = RunningOrPaused;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused);
 
 },{"./TimeDisplay":3,"react":493,"react-redux":553}],3:[function(require,module,exports){
 'use strict';
@@ -250,8 +259,7 @@ module.exports = function (store) {
 require('whatwg-fetch');
 require('babel-polyfill');
 
-var R = require('ramda'),
-    React = require('react'),
+var React = require('react'),
     ReactDOM = require('react-dom'),
     _require = require('redux'),
     createStore = _require.createStore,
@@ -293,7 +301,7 @@ sagaMiddleware.run(rootSaga);
 store.subscribe(render);
 render();
 
-},{"./ResetButton":1,"./RunningOrPaused":2,"./TimeDisplay":3,"./createRootSaga":4,"./createTimerAndHookUpToStore":5,"./reducer":519,"babel-polyfill":7,"ramda":341,"react":493,"react-dom":342,"react-redux":553,"redux":511,"redux-saga":495,"whatwg-fetch":518}],7:[function(require,module,exports){
+},{"./ResetButton":1,"./RunningOrPaused":2,"./TimeDisplay":3,"./createRootSaga":4,"./createTimerAndHookUpToStore":5,"./reducer":519,"babel-polyfill":7,"react":493,"react-dom":342,"react-redux":553,"redux":511,"redux-saga":495,"whatwg-fetch":518}],7:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -57209,10 +57217,13 @@ function symbolObservablePonyfill(root) {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _require = require('data.either'),
+var R = require('ramda'),
+    _require = require('data.either'),
     Left = _require.Left,
-    Right = _require.Right,
-    initialInterval = 25 * 60,
+    Right = _require.Right;
+
+
+var initialInterval = 25 * 60,
     reset = function reset(interval) {
     return {
         time: 0,
@@ -57256,7 +57267,7 @@ var _require = require('data.either'),
 
 module.exports = reducer;
 
-},{"data.either":521}],520:[function(require,module,exports){
+},{"data.either":521,"ramda":341}],520:[function(require,module,exports){
 // Copyright (c) 2013-2014 Quildreen Motta <quildreen@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person
