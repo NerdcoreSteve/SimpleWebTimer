@@ -305,7 +305,7 @@ module.exports = function (store) {
 
     timer.subscribe(function () {
         store.dispatch({ type: 'INCREMENT' });
-        if (store.getState().time == 60) {
+        if (store.getState().time === 0) {
             store.dispatch({ type: 'PAUSE' });
             store.dispatch({ type: 'NOTIFICATION', notification: 'timer\'s done!' });
         }
