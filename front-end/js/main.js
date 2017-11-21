@@ -13,8 +13,20 @@ const
     createRootSaga = require('./createRootSaga'),
     reducer = require('./reducer'),
     TimeDisplay = require('./TimeDisplay'),
-    ResetButton = require('./ResetButton'),
+    Button = require('./Button'),
     RunningOrPaused = require('./RunningOrPaused')
+
+const
+    App = ({store}) => 
+        <Provider store={store}>
+            <div>
+                <TimeDisplay timeInSeconds={store.getState().time}/>
+                <RunningOrPaused/>
+                <Button
+                    onClick={() => store.dispatch({type: 'RESET'})}
+                    text={'Reset'}/>
+            </div>
+        </Provider>
 
 const
     sagaMiddleware = createSagaMiddleware(),
@@ -23,13 +35,7 @@ const
     rootSaga = createRootSaga(timer),
     render = () =>
         ReactDOM.render(
-            <Provider store={store}>
-                <div>
-                    <TimeDisplay timeInSeconds={store.getState().time}/>
-                    <RunningOrPaused/>
-                    <ResetButton reset={() => store.dispatch({type: 'RESET'})}/>
-                </div>
-            </Provider>,
+            <App store={store}/>,
             document.getElementById('root'))
 
 sagaMiddleware.run(rootSaga)

@@ -4,19 +4,19 @@ const
 
 const
     TimeDisplay = require('./TimeDisplay'),
-    StartResume = require('./StartResume'),
+    Button = require('./Button'),
     TextInput = require('./TextInput')
 
 const
     StartResumeAndTextInput = ({startResume, text, changeInterval, changeText}) =>
         <div>
-            <StartResume startResume={startResume}/>
+            <Button onClick={startResume} text={'Start/Resume'}/>
             <br/>
             <TextInput text={text} onBlurOrEnter={changeInterval} onChange={changeText}/>
         </div>,
     PauseAndTimeDisplay = ({pause, interval}) =>
         <div>
-            <button onClick={pause} type="button"> Pause </button>
+            <Button onClick={pause} text={'Pause'}/>
             <TimeDisplay timeInSeconds={interval}/>
         </div>
 
