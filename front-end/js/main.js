@@ -6,13 +6,16 @@ const
     React = require('react'),
     ReactDOM = require('react-dom'),
     {createStore, applyMiddleware} = require('redux'),
-    {default: createSagaMiddleware} = require('redux-saga')
+    {default: createSagaMiddleware} = require('redux-saga'),
+    {Provider} = require('react-redux')
 
 const
     createTimerAndHookUpToStore = require('./createTimerAndHookUpToStore'),
     createRootSaga = require('./createRootSaga'),
     reducer = require('./reducer'),
-    TimeDisplay = require('./TimeDisplay')
+    TimeDisplay = require('./TimeDisplay'),
+    ResetButton = require('./ResetButton'),
+    RunningOrPaused = require('./RunningOrPaused')
 
 const
     sagaMiddleware = createSagaMiddleware(),
@@ -21,53 +24,13 @@ const
     rootSaga = createRootSaga(timer),
     render = () =>
         ReactDOM.render(
-            <div>
-                <TimeDisplay timeInSeconds={store.getState().time}/>
-                {function () {
-                    if(store.getState().paused) {
-                        return <div>
-                            <button
-                                onClick={() => store.dispatch({
-                                    type: 'START_RESUME'
-                                })}
-                                type="button">
-                                    Start/Resume
-                            </button>
-                            <br/>
-                            <input
-                                type="text"
-                                value={store.getState().text}
-                                onChange={({target:{value: text}}) => {
-                                    store.dispatch({type: 'CHANGE_TEXT', text})
-                                }}
-                                onKeyPress={({key}) => {
-                                    if(key === 'Enter') {
-                                        store.dispatch({type: 'CHANGE_INTERVAL'})
-                                    }
-                                }}
-                                onBlur ={() => store.dispatch({type: 'CHANGE_INTERVAL'})}/>
-                        </div>
-                    } else {
-                        return <div>
-                            <button
-                                onClick={() => store.dispatch({
-                                    type: 'PAUSE'
-                                })}
-                                type="button">
-                                    Pause
-                            </button>
-                            <TimeDisplay timeInSeconds={store.getState().interval}/>
-                        </div>
-                    }
-                }()}
-                <button
-                    onClick={() => store.dispatch({
-                        type: 'RESET'
-                    })}
-                    type="button">
-                        Reset
-                </button>
-            </div>,
+            <Provider store={store}>
+                <div>
+                    <TimeDisplay timeInSeconds={store.getState().time}/>
+                    <RunningOrPaused/>
+                    <ResetButton reset={() => store.dispatch({type: 'RESET'})}/>
+                </div>
+            </Provider>,
             document.getElementById('root'))
 
 sagaMiddleware.run(rootSaga)
