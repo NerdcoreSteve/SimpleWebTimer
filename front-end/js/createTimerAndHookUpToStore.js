@@ -7,7 +7,7 @@ module.exports = store => {
 
     timer.subscribe(() => {
         store.dispatch({type: 'INCREMENT'})
-        if(store.getState().time == 0) {
+        if(store.getState().time == 60) {
             store.dispatch({type: 'PAUSE'})
             store.dispatch({type: 'NOTIFICATION', notification: 'timer\'s done!'})
         }
