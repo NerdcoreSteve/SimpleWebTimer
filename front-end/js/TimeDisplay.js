@@ -2,7 +2,6 @@ const
     React = require('react'),
     moment = require('moment'),
     originalStyle = {
-        fontSize: '15rem',
         marginBottom: '0rem',
         marginTop: '0rem',
     },

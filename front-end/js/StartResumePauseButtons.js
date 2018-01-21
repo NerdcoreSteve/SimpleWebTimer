@@ -12,12 +12,13 @@ const
     })
 
 const
-    StartResumePauseButtons = ({paused, startResume, pause, reset}) =>
+    StartResumePauseButtons = ({style, paused, startResume, pause, reset}) =>
         <div>
             <Button
+                style={style}
                 onClick={paused ? startResume : pause}
                 text={paused ? 'Start/Resume' : 'Pause'}/>
-            <Button onClick={reset} text={'Reset'}/>
+            <Button style={style} onClick={reset} text={'Reset'}/>
         </div>
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(StartResumePauseButtons)

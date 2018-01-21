@@ -17,13 +17,17 @@ const
     RunningOrPaused = require('./RunningOrPaused'),
     StartResumePauseButtons = require('./StartResumePauseButtons')
 
+const {fontStuff} = require('./styles')
+
 const
-    App = ({store}) => 
+    App = ({store}) =>
         <Provider store={store}>
             <div>
-                <TimeDisplay timeInSeconds={store.getState().time}/>
-                <RunningOrPaused/>
-                <StartResumePauseButtons/>
+                <TimeDisplay
+                    style={fontStuff}
+                    timeInSeconds={store.getState().time}/>
+                <RunningOrPaused style={fontStuff}/>
+                <StartResumePauseButtons style={fontStuff}/>
             </div>
         </Provider>
 

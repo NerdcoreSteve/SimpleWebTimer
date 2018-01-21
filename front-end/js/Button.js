@@ -1,7 +1,6 @@
 const
     React = require('react'),
-    style = {
-        fontSize: '5rem',
+    originalStyle = {
         fontFamily: 'VT323, serif',
         backgroundColor: '#343D35',
         color: '#27E52A',
@@ -10,9 +9,9 @@ const
         margin: '1rem',
         marginLeft: '0',
     },
-    Button = ({onClick, text}) =>
+    Button = ({style={}, onClick, text}) =>
         <button
-            style={style}
+            style={{...originalStyle, ...style}}
             onClick={onClick}
             type="button">
             {text}
