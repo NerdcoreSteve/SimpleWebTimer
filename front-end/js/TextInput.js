@@ -2,11 +2,11 @@ const
     React = require('react'),
     originalStyle = {
         fontFamily: 'VT323, serif',
-        width: '100%',
+        width: '95vmin',
         backgroundColor: '#343D35',
         color: '#27E52A',
         borderColor: '#27E52A',
-        borderWidth: '2vw',
+        borderWidth: '2vmin',
     },
     TextInput = ({style={}, text, onBlurOrEnter, onChange}) =>
         <input

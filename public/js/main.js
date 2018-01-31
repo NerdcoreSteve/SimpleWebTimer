@@ -195,8 +195,8 @@ var React = require('react'),
     backgroundColor: '#343D35',
     color: '#27E52A',
     borderColor: '#27E52A',
-    borderWidth: '2vw',
-    margin: '2vw',
+    borderWidth: '2vmin',
+    margin: '2vmin',
     marginLeft: '0'
 },
     Button = function Button(_ref) {
@@ -259,7 +259,7 @@ var RunningOrPaused = function RunningOrPaused(_ref2) {
         text: text,
         onBlurOrEnter: changeInterval,
         onChange: changeText }) : React.createElement(TimeDisplay, {
-        style: _extends({ marginBottom: '4.1vw' }, style),
+        style: _extends({ marginBottom: '4.1vmin' }, style),
         timeInSeconds: interval });
 };
 
@@ -304,11 +304,11 @@ var StartResumePauseButtons = function StartResumePauseButtons(_ref2) {
         'div',
         null,
         React.createElement(Button, {
-            style: _extends({ width: '65%' }, style),
+            style: _extends({ width: '55vmin' }, style),
             onClick: paused ? startResume : pause,
             text: paused ? 'Start/Resume' : 'Pause' }),
         React.createElement(Button, {
-            style: _extends({ width: '30%' }, style),
+            style: _extends({ width: '30vmin' }, style),
             onClick: reset, text: 'Reset' })
     );
 };
@@ -323,11 +323,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var React = require('react'),
     originalStyle = {
     fontFamily: 'VT323, serif',
-    width: '100%',
+    width: '95vmin',
     backgroundColor: '#343D35',
     color: '#27E52A',
     borderColor: '#27E52A',
-    borderWidth: '2vw'
+    borderWidth: '2vmin'
 },
     TextInput = function TextInput(_ref) {
     var _ref$style = _ref.style,
@@ -363,8 +363,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var React = require('react'),
     moment = require('moment'),
     originalStyle = {
-    marginBottom: '0rem',
-    marginTop: '0rem'
+    marginBottom: '0vmin',
+    marginTop: '-3vmin'
 },
     formatSeconds = function formatSeconds(seconds) {
     return moment.utc(seconds * 1000).format('HH:mm:ss');
@@ -553,8 +553,24 @@ var createTimerAndHookUpToStore = require('./createTimerAndHookUpToStore'),
 var _require4 = require('./styles'),
     fontStuff = _require4.fontStuff;
 
-var buttonFont = _extends({}, fontStuff, {
-    fontSize: '10vw'
+var buttonStyle = _extends({}, fontStuff, {
+    fontSize: '10vmin'
+});
+
+var textStyle = {
+    fontSize: '5vmin',
+    marginBottom: '0vmin',
+    marginTop: '0vmin'
+};
+
+var paragraphStyle = _extends({}, textStyle, {
+    backgroundColor: '#4b504b',
+    padding: '1vmin'
+});
+
+var headerStyle = _extends({}, textStyle, {
+    fontSize: '10vmin',
+    textTransform: 'uppercase'
 });
 
 var App = function App(_ref) {
@@ -565,11 +581,21 @@ var App = function App(_ref) {
         React.createElement(
             'div',
             null,
+            React.createElement(
+                'header',
+                { style: headerStyle },
+                'Simple Web Timer'
+            ),
+            React.createElement(
+                'p',
+                { style: _extends({}, paragraphStyle, { width: '93vmin' }) },
+                'Click where it says \'25\' and type another number if you want to change the number of minutes before the alarm goes off. Hit \'Start/Resume\' to start the timer.'
+            ),
             React.createElement(TimeDisplay, {
                 style: fontStuff,
                 timeInSeconds: store.getState().time }),
             React.createElement(RunningOrPaused, { style: fontStuff }),
-            React.createElement(StartResumePauseButtons, { style: buttonFont })
+            React.createElement(StartResumePauseButtons, { style: buttonStyle })
         )
     );
 };
@@ -646,8 +672,7 @@ module.exports = reducer;
 
 module.exports = {
     fontStuff: {
-        fontSize: '30vw',
-        textAlign: 'center'
+        fontSize: '20vmin'
     }
 };
 

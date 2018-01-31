@@ -15,11 +15,11 @@ const
     StartResumePauseButtons = ({style, paused, startResume, pause, reset}) =>
         <div>
             <Button
-                style={{width: '65%', ...style}}
+                style={{width: '55vmin', ...style}}
                 onClick={paused ? startResume : pause}
                 text={paused ? 'Start/Resume' : 'Pause'}/>
             <Button
-                style={{width: '30%', ...style}}
+                style={{width: '30vmin', ...style}}
                 onClick={reset} text={'Reset'}/>
         </div>
 

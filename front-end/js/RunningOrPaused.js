@@ -22,7 +22,7 @@ const
                 onBlurOrEnter={changeInterval}
                 onChange={changeText}/>
             : <TimeDisplay
-                style={{marginBottom: '4.1vw', ...style}}
+                style={{marginBottom: '4.1vmin', ...style}}
                 timeInSeconds={interval}/>
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(RunningOrPaused)

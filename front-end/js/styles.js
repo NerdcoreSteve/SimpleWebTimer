@@ -1,6 +1,5 @@
 module.exports = {
     fontStuff: {
-        fontSize: '30vw',
-        textAlign: 'center',
+        fontSize: '20vmin',
     }
 }
