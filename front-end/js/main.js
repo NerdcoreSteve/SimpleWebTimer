@@ -19,6 +19,11 @@ const
 
 const {fontStuff} = require('./styles')
 
+const buttonFont = {
+    ...fontStuff,
+    fontSize: '10vw',
+}
+
 const
     App = ({store}) =>
         <Provider store={store}>
@@ -27,7 +32,7 @@ const
                     style={fontStuff}
                     timeInSeconds={store.getState().time}/>
                 <RunningOrPaused style={fontStuff}/>
-                <StartResumePauseButtons style={fontStuff}/>
+                <StartResumePauseButtons style={buttonFont}/>
             </div>
         </Provider>
 

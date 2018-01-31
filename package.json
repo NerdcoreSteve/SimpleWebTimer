@@ -18,17 +18,24 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/NerdcoreSteve/SimpleWebTimer#readme",
   "dependencies": {
-    "babelify": "^7.3.0",
+    "babel-polyfill": "^6.26.0",
+    "data.either": "^1.5.1",
     "express": "^4.14.0",
+    "moment": "^2.20.1",
     "pug": "^2.0.0-beta6",
     "ramda": "^0.25.0",
     "react": "^16.1.1",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-latest": "^6.16.0",
-    "babel-preset-react": "^6.16.0"
+    "babel-preset-react": "^6.16.0",
+    "babelify": "^8.0.0"
   }
 }

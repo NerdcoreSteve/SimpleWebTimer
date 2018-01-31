@@ -5,8 +5,8 @@ const
         backgroundColor: '#343D35',
         color: '#27E52A',
         borderColor: '#27E52A',
-        borderWidth: '0.5rem',
-        margin: '1rem',
+        borderWidth: '2vw',
+        margin: '2vw',
         marginLeft: '0',
     },
     Button = ({style={}, onClick, text}) =>
