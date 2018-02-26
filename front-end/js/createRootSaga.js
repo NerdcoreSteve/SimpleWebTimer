@@ -2,7 +2,9 @@ const
     R = require('ramda'),
     {takeEvery, effects: {put, select}} = require('redux-saga'),
     notificationSaga = function* (action) {
-        alert(action.notification)
+        if(Notification.permission === 'granted') {
+            new Notification('Time\'s Up!')
+        }
         yield put({type: 'NOTIFIED'})
     },
     createTimerSaga = timer => function* (action) {

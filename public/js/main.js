@@ -396,7 +396,9 @@ var R = require('ramda'),
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
-                    alert(action.notification);
+                    if (Notification.permission === 'granted') {
+                        new Notification('Time\'s Up!');
+                    }
                     _context.next = 3;
                     return put({ type: 'NOTIFIED' });
 
@@ -608,6 +610,10 @@ var sagaMiddleware = createSagaMiddleware(),
     render = function render() {
     return ReactDOM.render(React.createElement(App, { store: store }), document.getElementById('root'));
 };
+
+Notification.requestPermission().then(function (result) {
+    return result;
+});
 
 sagaMiddleware.run(rootSaga);
 store.subscribe(render);

@@ -72,6 +72,10 @@ const
             <App store={store}/>,
             document.getElementById('root'))
 
+Notification
+    .requestPermission()
+    .then(result => result)
+
 sagaMiddleware.run(rootSaga)
 store.subscribe(render)
 render()
