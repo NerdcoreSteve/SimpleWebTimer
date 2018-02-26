@@ -2,7 +2,7 @@ const
     React = require('react'),
     originalStyle = {
         fontFamily: 'VT323, serif',
-        width: '95vmin',
+        width: '85vmin',
         backgroundColor: '#343D35',
         color: '#27E52A',
         borderColor: '#27E52A',

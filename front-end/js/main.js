@@ -25,7 +25,7 @@ const buttonStyle = {
 }
 
 const textStyle = {
-    fontSize: '5vmin',
+    fontSize: '10vmin',
     marginBottom: '0vmin',
     marginTop: '0vmin',
 }
@@ -40,6 +40,7 @@ const headerStyle = {
     ...textStyle,
     fontSize: '10vmin',
     textTransform: 'uppercase',
+    marginLeft: '11vmin',
 }
 
 const
@@ -49,17 +50,15 @@ const
                 <header style={headerStyle}>
                     Simple Web Timer
                 </header>
-                <p style={{...paragraphStyle, width: '93vmin'}}>
-                    Click where it says '25' and type another number
-                    if you want to change the number of minutes before
-                    the alarm goes off. Hit 'Start/Resume' to start
-                    the timer.
-                </p>
                 <TimeDisplay
                     style={fontStuff}
                     timeInSeconds={store.getState().time}/>
                 <RunningOrPaused style={fontStuff}/>
                 <StartResumePauseButtons style={buttonStyle}/>
+                <p style={{...paragraphStyle, width: '83vmin'}}>
+                    Click on the '25' to change the number of minutes
+                    before the alarm goes off.
+                </p>
             </div>
         </Provider>
 

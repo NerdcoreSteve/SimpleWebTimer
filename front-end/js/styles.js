@@ -1,5 +1,5 @@
 module.exports = {
     fontStuff: {
-        fontSize: '20vmin',
+        fontSize: '27vmin',
     }
 }

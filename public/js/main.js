@@ -308,7 +308,7 @@ var StartResumePauseButtons = function StartResumePauseButtons(_ref2) {
             onClick: paused ? startResume : pause,
             text: paused ? 'Start/Resume' : 'Pause' }),
         React.createElement(Button, {
-            style: _extends({ width: '30vmin' }, style),
+            style: _extends({ width: '28vmin' }, style),
             onClick: reset, text: 'Reset' })
     );
 };
@@ -323,7 +323,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var React = require('react'),
     originalStyle = {
     fontFamily: 'VT323, serif',
-    width: '95vmin',
+    width: '85vmin',
     backgroundColor: '#343D35',
     color: '#27E52A',
     borderColor: '#27E52A',
@@ -558,7 +558,7 @@ var buttonStyle = _extends({}, fontStuff, {
 });
 
 var textStyle = {
-    fontSize: '5vmin',
+    fontSize: '10vmin',
     marginBottom: '0vmin',
     marginTop: '0vmin'
 };
@@ -570,7 +570,8 @@ var paragraphStyle = _extends({}, textStyle, {
 
 var headerStyle = _extends({}, textStyle, {
     fontSize: '10vmin',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    marginLeft: '11vmin'
 });
 
 var App = function App(_ref) {
@@ -586,16 +587,16 @@ var App = function App(_ref) {
                 { style: headerStyle },
                 'Simple Web Timer'
             ),
-            React.createElement(
-                'p',
-                { style: _extends({}, paragraphStyle, { width: '93vmin' }) },
-                'Click where it says \'25\' and type another number if you want to change the number of minutes before the alarm goes off. Hit \'Start/Resume\' to start the timer.'
-            ),
             React.createElement(TimeDisplay, {
                 style: fontStuff,
                 timeInSeconds: store.getState().time }),
             React.createElement(RunningOrPaused, { style: fontStuff }),
-            React.createElement(StartResumePauseButtons, { style: buttonStyle })
+            React.createElement(StartResumePauseButtons, { style: buttonStyle }),
+            React.createElement(
+                'p',
+                { style: _extends({}, paragraphStyle, { width: '83vmin' }) },
+                'Click on the \'25\' to change the number of minutes before the alarm goes off.'
+            )
         )
     );
 };
@@ -672,7 +673,7 @@ module.exports = reducer;
 
 module.exports = {
     fontStuff: {
-        fontSize: '20vmin'
+        fontSize: '27vmin'
     }
 };
 

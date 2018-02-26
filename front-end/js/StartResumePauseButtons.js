@@ -19,7 +19,7 @@ const
                 onClick={paused ? startResume : pause}
                 text={paused ? 'Start/Resume' : 'Pause'}/>
             <Button
-                style={{width: '30vmin', ...style}}
+                style={{width: '28vmin', ...style}}
                 onClick={reset} text={'Reset'}/>
         </div>
 
